@@ -6,14 +6,14 @@
 
 //     return map[row][col];
 // } Will need to add this into map folder so the collison can tell what tile is there
-const TILE_SIZE = 8;
-
-function horizontal(){
+//const TILE_SIZE = 8;
+import { map, tileSize } from "../tileMap.js";
+ export function horizontal(player){
     //Converts player position into tile coordinates
-    const leftTile = Math.floor(player.x / TILE_SIZE);
-    const rightTile = Math.floor((player.x + player.width-1) / TILE_SIZE);
-    const topTile = Math.floor(player.y / TILE_SIZE);
-    const bottomTile = Math.floor((player.y + player.height - 1) / TILE_SIZE);
+    const leftTile = Math.floor(player.x / tileSize);
+    const rightTile = Math.floor((player.x + player.width-1) / tileSize);
+    const topTile = Math.floor(player.y / tileSize);
+    const bottomTile = Math.floor((player.y + player.height - 1) / tileSize);
 //Loops through tiles touching the player
 for(let row = topTile; row <= bottomTile; row++){
     for (let col = leftTile; col <= rightTile; col++){
@@ -21,10 +21,10 @@ for(let row = topTile; row <= bottomTile; row++){
         if(getTile(col,row) === 1){ 
 
             if(player.vx >  0 ){
-            player.x = col * TILE_SIZE - player.width;
+            player.x = col * tileSize - player.width;
             } 
             else if (player.vx < 0 ){
-            player.x = ( col + 1) * TILE_SIZE;
+            player.x = ( col + 1) * tileSize;
             }
             player.vx = 0;
             }
@@ -32,14 +32,14 @@ for(let row = topTile; row <= bottomTile; row++){
     }
 }
 
-function vertical(){
+export function vertical(player){
     // Reset player's ground state
     player.grounded = false;
     //Converts player position into tile coordinates
-    const leftTile = Math.floor(player.x / TILE_SIZE);
-    const rightTile = Math.floor((player.x + player.width-1) / TILE_SIZE);
-    const topTile = Math.floor(player.y / TILE_SIZE);
-    const bottomTile = Math.floor((player.y + player.height - 1) / TILE_SIZE);
+    const leftTile = Math.floor(player.x / tileSize);
+    const rightTile = Math.floor((player.x + player.width-1) / tileSize);
+    const topTile = Math.floor(player.y / tileSize);
+    const bottomTile = Math.floor((player.y + player.height - 1) / tileSize);
     
     //Loops through tiles touching the player
     for(let row = topTile; row <= bottomTile; row++){
@@ -48,12 +48,12 @@ function vertical(){
             if(getTile(col,row) === 1 ){
 
                 if(player.vy > 0 ){
-                    player.y = row * TILE_SIZE - player.height;
+                    player.y = row * tileSize - player.height;
                     //Ground detection
                     player.grounded = true;
                 }
                 else if ( player.vy < 0){
-                    player.y = (row + 1 ) * TILE_SIZE
+                    player.y = (row + 1 ) * tileSize
                 }
                 //Stop vertical velocity
                 player.vy = 0;

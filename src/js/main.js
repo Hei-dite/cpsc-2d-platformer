@@ -1,4 +1,4 @@
-import { tileCollision } from "./systems/collision.js";
+import { horizontal, vertical} from "./systems/mapCollison.js";
 import { playerMovement } from "./systems/playerMovement.js";
 import { player } from "./entities/player.js";
 import { render } from "./systems/render.js";
