@@ -15,7 +15,8 @@ function loop(timestamp) {
     if (dt > 0.1) dt = 0.1;
 
     playerMovement(dt);
-    tileCollision(player);
+    horizontal(player);
+    vertical(player);
     render();
 
     requestAnimationFrame(loop);
