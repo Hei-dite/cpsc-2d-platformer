@@ -21,6 +21,8 @@ let lastTime = 0;
 let lastKnownHealth = player.health;
 let lastKnownMaxHealth = player.maxHealth;
 let lastSavedCoinCount = 0;
+let gamePaused = false;
+let gameLoopStarted = false;
 
 // temporary input flag for attacks
 let attackPressed = false;
@@ -50,7 +52,7 @@ function syncPlayerHealthHud(force = false): void {
 }
 
 window.addEventListener("keydown", (event: KeyboardEvent) => {
-  if (event.code === "KeyF") {
+  if (event.code === "KeyF" && !event.repeat) {
     attackPressed = true;
   }
 });
@@ -62,6 +64,11 @@ function loop(timestamp: number): void {
   lastTime = timestamp;
 
   if (dt > 0.1) dt = 0.1;
+
+  if (gamePaused) {
+    requestAnimationFrame(loop);
+    return;
+  }
 
   // movement
   playerMovement(dt);
@@ -107,10 +114,14 @@ function loop(timestamp: number): void {
   }
 
   // draw everything
-  render();
+  render(dt);
   syncPlayerHealthHud();
 
   requestAnimationFrame(loop);
+}
+
+export function setGamePaused(paused: boolean): void {
+  gamePaused = Boolean(paused);
 }
 
 export function startGame(canvas: HTMLCanvasElement): void {
@@ -122,8 +133,13 @@ export function startGame(canvas: HTMLCanvasElement): void {
   // window.startGame = startGame;
   applySelectedCharacter();
   initializeLevels(canvas);
+  window.setGamePaused = setGamePaused;
   syncPlayerHealthHud(true);
-  requestAnimationFrame(loop);
+
+  if (!gameLoopStarted) {
+    gameLoopStarted = true;
+    requestAnimationFrame(loop);
+  }
 }
 
 // Make it available globally for the React component

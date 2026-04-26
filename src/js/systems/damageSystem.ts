@@ -1,21 +1,13 @@
 import type { Player } from "../entities/player";
 import type { Enemy } from "../entities/enemy";
+import type { Damageable } from "../../types/damageable";
+import { Coin, coins } from "../collectables/coins.js";
 
 type Rect = {
     x: number;
     y: number;
     w: number;
     h: number;
-}
-
-type Damageable = {
-    health: number;
-    maxHealth: number;
-    isDead: boolean;
-    vx: number;
-    vy: number;
-    knockbackX: number;
-    knockbackY: number;
 }
 
 export interface AttackHitbox extends Rect {}
@@ -120,7 +112,7 @@ export function getPlayerAttackBox(player: Player): AttackHitbox {
 }
 
 export function playerAttack(player: Player, enemies: Enemy[]): void {
-    if (!player.isDead && player.attackTimer <= 0) {
+    if (!player.isDead && player.mode === "sword" && player.attackTimer <= 0) {
         player.attackTimer = player.attackCooldown;
         const attackBox = getPlayerAttackBox(player);
 
@@ -129,6 +121,7 @@ export function playerAttack(player: Player, enemies: Enemy[]): void {
                 const knockbackX = player.lastDir === "right" ? 300 : -300;
                 const knockbackY = -120;
                 dealDamage(enemy, player.damage, knockbackX, knockbackY);
+                enemy.attackTimer = enemy.attackCooldown;
             }
         }
     }
@@ -142,14 +135,11 @@ export function enemyAttack(player: Player, enemies: Enemy[]): void {
 
         if (intersects(player, enemy)) {
             const knockbackX = player.x < enemy.x ? -250 : 250;
-            const knockbackY = -75;
+            const knockbackY = -25;
 
             dealDamage(player, enemy.damage, knockbackX, knockbackY);
+            enemy.attackTimer = enemy.attackCooldown;
             player.invulnTimer = player.invulnTime;
-
-            if (player.health <= 0) {
-                player.isDead = true;
-            }
 
             break;
         }
@@ -176,6 +166,7 @@ export function resetPlayer(player: Player): void {
 export function removeEnemy(enemies: Enemy[]): void {
     for (let i = enemies.length - 1; i >= 0; i--){
         if (enemies[i].isDead || enemies[i].health <= 0) {
+            dropCoinOnDeath(enemies[i]);
             enemies.splice(i, 1);
         }
     }
@@ -184,7 +175,15 @@ export function removeEnemy(enemies: Enemy[]): void {
 export function removeEnemyInPit(enemies: Enemy[]): void {
     for (let i = enemies.length - 1; i >= 0; i--){
         if (enemies[i].y > 1750) {
+            dropCoinOnDeath(enemies[i]);
             enemies.splice(i, 1);
         }
     }
+}
+
+function dropCoinOnDeath(enemy: Enemy): void {
+    const enemyX = enemy.x
+    const enemyY = enemy.y
+
+    coins.push(new Coin(enemyX, enemyY));
 }
