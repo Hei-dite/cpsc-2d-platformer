@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.character-card {
+  background: linear-gradient(180deg, #121226 0%, #0c0c1b 100%);
+  border: 2px solid #2d3558;
+  border-radius: 6px;
+  padding: 22px 18px 20px;
+  text-align: center;
+  position: relative;
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease;
+  color: #f5f0d8;
+  font-family: "Press Start 2P", monospace;
+  width: 100%;
+}
+
+.character-card:not(:disabled) {
+  cursor: pointer;
+}
+
+.character-card:not(:disabled):hover {
+  transform: translateY(-2px);
+  border-color: #ffdd00;
+  background: linear-gradient(180deg, #181838 0%, #101026 100%);
+}
+
+.character-card:disabled {
+  opacity: 1;
+}
+
+.character-card--selected {
+  border-color: #ffdd00;
+  box-shadow: 0 0 0 2px rgba(255, 221, 0, 0.2);
+}
+
+.character-card--locked {
+  border-color: #6d4050;
+}
+
+.character-card__status-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.character-card__status {
+  font-size: clamp(8px, 0.7vw, 11px);
+  color: #ffdd00;
+  background: rgba(255, 221, 0, 0.08);
+  border: 1px solid rgba(255, 221, 0, 0.25);
+  padding: 6px 9px;
+  border-radius: 999px;
+}
+
+.character-card__portrait {
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin: 0 auto 18px;
+  display: block;
+}
+
+.character-card__name {
+  font-size: clamp(11px, 0.95vw, 15px);
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+.character-card__color {
+  font-size: clamp(8px, 0.7vw, 11px);
+  margin-bottom: 14px;
+}
+
+.character-card__helper {
+  font-size: clamp(8px, 0.7vw, 11px);
+  color: #99a3c5;
+  line-height: 1.9;
+  min-height: 48px;
+}
+
+@media (max-width: 640px) {
+  .character-card__portrait {
+    width: 96px;
+    height: 96px;
+  }
+}
