@@ -1,5 +1,5 @@
 export const Mrows = 60;
-export const Mcols = 250;
+export const Mcols = 450;
 export const tileSize = 32;
 
 // Tiles IDs used throughout the game
