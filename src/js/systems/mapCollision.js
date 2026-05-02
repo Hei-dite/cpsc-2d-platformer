@@ -104,13 +104,22 @@ export function vertical(entity) {
     }
 }
 
+function hazBox(entity){
+    return {
+        x: entity.x + 3,
+        y: entity.y + 2,
+        w: entity.w - 3,
+        h: entity.h - 2
+    }
+}
 
 export function checkHazard(entity) {
-    //Converts player position into tile coordinates
-    const leftTile = Math.floor(entity.x / tileSize);
-    const rightTile = Math.floor((entity.x + entity.w - 1) / tileSize);
-    const topTile = Math.floor(entity.y / tileSize);
-    const bottomTile = Math.floor((entity.y + entity.h - 1) / tileSize);
+    const box = hazBox(entity);
+
+    const leftTile = Math.floor(box.x / tileSize);
+    const rightTile = Math.floor((box.x + box.w -1) / tileSize);
+    const topTile = Math.floor(box.y / tileSize);
+    const bottomTile = Math.floor((box.y + box.h -1) / tileSize);
 
     for (let row = topTile; row <= bottomTile; row++) {
         for (let col = leftTile; col <= rightTile; col++) {
