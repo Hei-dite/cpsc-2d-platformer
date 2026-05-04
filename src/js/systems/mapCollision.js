@@ -115,14 +115,6 @@ function hazBox(entity){
 }
 
 export function checkHazard(entity) {
-<<<<<<< HEAD
-    const box = hazBox(entity);
-
-    const leftTile = Math.floor(box.x / tileSize);
-    const rightTile = Math.floor((box.x + box.w -1) / tileSize);
-    const topTile = Math.floor(box.y / tileSize);
-    const bottomTile = Math.floor((box.y + box.h -1) / tileSize);
-=======
     if (isGodModeEnabled()) {
         return false;
     }
@@ -132,7 +124,6 @@ export function checkHazard(entity) {
     const rightTile = Math.floor((entity.x + entity.w - 1) / tileSize);
     const topTile = Math.floor(entity.y / tileSize);
     const bottomTile = Math.floor((entity.y + entity.h - 1) / tileSize);
->>>>>>> c53d931a4b623ff4c791b4521a291091a437c1cd
 
     for (let row = topTile; row <= bottomTile; row++) {
         for (let col = leftTile; col <= rightTile; col++) {
